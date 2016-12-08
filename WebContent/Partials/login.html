@@ -7,13 +7,13 @@
         <h2 class="form-signin-heading">Connectez vous</h2>
        	<div id="divEmail" class="form-group">
         	<label for="inputEmail" class="sr-only">addresse mail</label>
-        	<input class="form-control" type="email" id="inputEmail" name="emailUser" placeholder="Email address" ng-model="emailConnexion" required autofocus>
+        	<input class="form-control" type="email" id="inputEmail" name="emailUser" placeholder="Email address" ng-model="user.email" required autofocus>
      		<span id="icon" aria-hidden="flase"></span>  
        </div> 
        
         <label for="inputPassword" class="sr-only">Mot de passe</label>        
-        <input class="form-control" type="password" id="inputPassword" name="PasswordUser" placeholder="Password" ng-model="passwordConnexion"  required>
-        <a href="#">mot de passe oublié?</a>
+        <input class="form-control" type="password" id="inputPassword" name="PasswordUser" placeholder="Password" ng-model="user.password"  required>
+        <a href="#">mot de passe oublie?</a>
         <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Se souvenir de moi

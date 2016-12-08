@@ -1,10 +1,10 @@
 <div class="form-group">
 	<label for="Desr">A:</label>
-	<input type="email" class="form-control" id="dest" name="dest"  placeholder="Objet " ng-model="mail.dest">
+	<input type="email" class="form-control" id="dest" name="dest"  placeholder="Dest " ng-model="mail.receivers">
 </div>
 <div class="form-group">
 	<label for="Objet">Objet:</label>
-	<input type="text" class="form-control" id="objet" name="objet"  placeholder="Objet " ng-model="mail.objet">
+	<input type="text" class="form-control" id="objet" name="objet"  placeholder="Objet " ng-model="mail.object">
 </div>
 <div class="form-group">
 	<label for="Contenue">Content:</label>
@@ -13,15 +13,15 @@
 <div class="form-group">
 	<span class="glyphicon glyphicon-paperclip">
 	<label for="PJ1">Piece Jointe 1:</label>
-	<input type="file" class="form-control" id="lastName" name="PJ1" placeholder="Choisir un fichier">
+	<input type="file" class="form-control" id="lastName" name="PJ1" placeholder="Choisir un fichier" ng-model="mail.pj1">
 	</span>
 </div>
 <div class="form-group">
 	<span class="glyphicon glyphicon-paperclip">
 	<label for="PJ2">Piece Jointe 2:</label>
-	<input type="file" class="form-control" id="lastName" name="PJ2" placeholder="Choisir un fichier">
+	<input type="file" class="form-control" id="lastName" name="PJ2" placeholder="Choisir un fichier" ng-model="mail.pj2">
 	</span>
 </div>
 
-<button id="send" class="btn btn-lg btn-default" ng-click="addMail()">Envoyer</button>
+<button id="send" class="btn btn-lg btn-default" ng-click="envoyer()">Envoyer</button>
             

@@ -1,0 +1,32 @@
+ <div  ng-controller="CtrlRec" ></div>
+ <h2>Total mails recus <span class="badge" ng-bind=reception.length> </span></h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+<!--        <th ng-click="orderByMe('firstName')">Nom </th> -->
+            <th>Object </th>
+            <th>Date</th>
+            <th>de<th>
+            <th>PJ</th>
+            <th>Supprimer</th>
+            <th>Voir</th>
+        </tr>
+        </thead>
+        <tbody>
+<!--         <tr ng-repeat="mail in reception |orderBy : prop | filter : filt  "> -->
+	  	<tr ng-repeat="mail in reception">
+
+           <td>{{mail.object}}</td>
+           <td>{{mail.date}}</td>
+            <td>{{mail.sender.firstName}}</td>
+           <td>0</td>
+            <td>
+                <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="deleteMail(mail.id)"></button>
+            </td>
+          
+            <td>
+                <button class="btn btn-info glyphicon glyphicon-eye-open" ng-click="showMail(mail.id)"></button >
+            </td>  
+        </tr> 
+        </tbody>
+    </table>
