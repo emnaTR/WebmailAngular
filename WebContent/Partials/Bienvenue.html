@@ -1,0 +1,11 @@
+
+ <div class="jumbotron">
+        <h1> Bienvenue dans votre boite mail </h1>
+        <p class="lead">
+        	 <label for="Date">Nous sommes le : </label>
+	    	<h4 id="date" ng-model="dat">{{ dat | date:'dd/MM/yyyy' }}</h4>
+	    	<h4> Il est :{{ dat | date:'HH:mm:ss' }}</h4>
+	    	<h4> Vous etes connecte en tant que :{{ user.firstName }}</h4>
+        </p>
+       
+</div>

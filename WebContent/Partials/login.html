@@ -1,0 +1,35 @@
+
+<!-- ============== formulaire d inscription============================ -->
+    <div class="container">
+
+      <form class="form-signin">
+      
+        <h2 class="form-signin-heading">Connectez vous</h2>
+       	<div id="divEmail" class="form-group">
+        	<label for="inputEmail" class="sr-only">addresse mail</label>
+        	<input class="form-control" type="email" id="inputEmail" name="emailUser" placeholder="Email address" ng-model="emailConnexion" required autofocus>
+     		<span id="icon" aria-hidden="flase"></span>  
+       </div> 
+       
+        <label for="inputPassword" class="sr-only">Mot de passe</label>        
+        <input class="form-control" type="password" id="inputPassword" name="PasswordUser" placeholder="Password" ng-model="passwordConnexion"  required>
+        <a href="#">mot de passe oublié?</a>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Se souvenir de moi
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" id="submit_id" ng-click="login()" >Connexion</button>
+       
+      </form>
+      <form class="form-signin">
+	  <div class="form-group">
+	  	<p>Si vous n'avez pas encore un compte, vous pouvez vous inscrire en cliquant sur le lien ci-desous</p>
+	  	<a href="#/inscription">
+	  	<button class="btn btn-lg btn-success btn-block" id="inscri_id" >Inscription</button>
+	  	</a>
+	  	<h6>En cliquant sur Inscription, vous acceptez nos Conditions</h6>
+	  </div>
+	  </form>
+    </div> <!-- /container -->
+

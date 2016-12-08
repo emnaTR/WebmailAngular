@@ -1,0 +1,28 @@
+<div>
+    <form class="form-signin"">
+ 			<h2 class="form-signin-heading">Inscrivez Vous</h2>
+ 			<div class="form-group">
+           		<label for="lastName">Nom:</label>
+                <input type="text" class="form-control" id="lastname" name="lastName"  placeholder="Saisir votre nom " ng-model="user.lastName">
+            </div>
+
+			<div class="form-group">
+            	<label for="firstName">Prenom:</label>
+                <input type="text" class="form-control" id="firstname" name = "firstName" placeholder="Saisir votre prenom"  ng-model="user.firstName">
+            </div>
+
+			<div class="form-group">
+            	<label  for="email">mail:</label>
+                <input type="email" class="form-control" id="email" name = "email" placeholder="email@xxx.fr" ng-model="user.email">
+            </div>
+            
+            <div class="form-group">
+             	<label  for="password">password:</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Saisir password" ng-model="user.password">
+            </div>
+
+            <div class="form-group">
+                <button id="save" class="btn btn-lg btn-success btn-block" ng-click="addUser()">Submit</button>
+            </div>
+     </form>
+</div> 

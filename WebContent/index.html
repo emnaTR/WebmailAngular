@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    
+    <title>Index Webmail</title>
+     <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/justified-nav.css" rel="stylesheet">
+     <link href="css//signin.css" rel="stylesheet">
+     <link type="text/css" rel="stylesheet" href="assets/jquery-te-1.4.0.css">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script type="text/javascript" src="assets/jquery.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="assets/jquery-te-1.4.0.min.js" charset="utf-8"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="Controller.js"></script>   
+	<script src="directives/rich-editor.js"></script>
+	
+  </head>
+
+  <body>
+ <!--Menu ================================================== -->
+    <div ng-app="myApp" ng-controller="CtrlUser">
+    <div class="container" >
+      <!-- The justified navigation menu is meant for single line per list item.
+           Multiple lines will require custom code not provided by Bootstrap. -->
+      <div class="masthead">
+        <h3 class="text-muted"><a href="index.html">Webmail</a></h3>
+        <nav>
+          <ul class="nav nav-justified">
+            <li><a href="#/index">Home</a></li>
+            <li><a href="#/reception">Boite Réception</a></li>
+            <li><a href="#/envoi">Boite d'envoi</a></li>
+            <li><a href="#/mail">Nouveau mail</a></li>
+            <li><a href="#/contact">Contact</a></li>
+            <li><a href="#/connexion">Connexion</a></li>
+            <li><a href="#/inscription">Inscription</a></li>
+          </ul>
+        </nav>
+      </div>
+
+       <!-- Content ================================================== -->
+ 	  <div ng-view></div>
+      <!-- Site footer -->
+      <footer class="footer">
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+	</div>
+  </body>
+</html>
+
+
