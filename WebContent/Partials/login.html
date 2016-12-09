@@ -1,8 +1,8 @@
 
 <!-- ============== formulaire d inscription============================ -->
-    <div class="container">
+    <div class="container" ng-model="checkConn">
 
-      <form class="form-signin">
+      <form class="form-signin" >
       
         <h2 class="form-signin-heading">Connectez vous</h2>
        	<div id="divEmail" class="form-group">
@@ -11,8 +11,11 @@
      		<span id="icon" aria-hidden="flase"></span>  
        </div> 
        
-        <label for="inputPassword" class="sr-only">Mot de passe</label>        
+        <label for="inputPassword" class="sr-only" >Mot de passe</label>        
         <input class="form-control" type="password" id="inputPassword" name="PasswordUser" placeholder="Password" ng-model="user.password"  required>
+       	<div ng-show="checkConn">
+			<p class="text-danger bg-danger">login ou mdp incorrect</p>
+		</div>
         <a href="#">mot de passe oublie?</a>
         <div class="checkbox">
           <label>

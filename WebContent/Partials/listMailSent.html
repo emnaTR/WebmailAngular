@@ -1,5 +1,19 @@
- <div  ng-controller="CtrlSent" ></div>
- <h2>Total mails envoyes <span class="badge" ng-bind=Mailsent.length> </span></h2>
+<div ng-controller="CtrlSent">
+	<div class="row" >
+	<nav class="navbar navbar-dafault">
+  		<ul class="nav navbar-nav">
+			<li> <a href="#/boite/mail"><h4><span class="label label-primary">Nouveau Message</span></h4> </a>
+			<li> <a href="#/boite/reception"><h4><span class="badge">Boite de reception</span></h4></a>
+			<li> <a href="#/boite/envoi"><h4> <span class="badge">Boite d'envoi</span></h4></a>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+		    <br><li> <p >compte:{{user.email}}</p></li>
+		    <li> <button class="btn btn-xs glyphicon glyphicon-remove-sign" ng-click="deconnexion()"></button ></li>
+		</ul>
+	</nav>
+	</div>
+
+ 	<h2>Total mails envoyes <span class="badge" ng-bind=Mailsent.length> </span></h2>
     <table class="table table-bordered table-striped">
         <thead>
         <tr>
@@ -18,7 +32,7 @@
 
            <td>{{mail.object}}</td>
            <td>{{mail.date}}</td>
-           <td>{{mail.receivers.email}}</td>
+           <td>{{mail.usersReceiver[0].email}}</td>
            <td>0</td>
             <td>
                 <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="deleteMail(mail.id)"></button>
@@ -30,3 +44,4 @@
         </tr> 
         </tbody>
     </table>
+ </div>

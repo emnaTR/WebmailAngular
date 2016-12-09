@@ -1,34 +1,59 @@
-var myApp = angular.module("myApp", ["ngRoute"]);
+var myApp = angular.module("myApp",["ngRoute","ngCookies"]);
 
-var ListReception = function(id, Monscope, Monhttp){
-    var url = 'http://localhost:8080/Webmails/app/rest/user/'+id+'/MailsRec';
+//récupérer la boite de reception d'un user id
+var listUser = function(Monscope, Monhttp){
+	 console.log('fct list user');
+    var url = 'http://localhost:8080/Webmails/app/rest/user';
     Monhttp.get(url).then(function(resp){
-        Monscope.reception = resp.data;
+        Monscope.users = resp.data;
+        console.log( Monscope.users );
     });
 }
+//récupérer la boite de reception d'un user id
+var ListReception = function(id, Monscope, Monhttp){
+	console.log('fct list reception');
+    var url = 'http://localhost:8080/Webmails/app/rest/user/'+id+'/MailsRec';
+    console.log(url);
+    Monhttp.get(url).then(function(resp){
+        Monscope.reception = resp.data;
+        console.log( Monscope.reception );
+    });
+}
+//récupérer la boite d'envoi d'un user id
 var ListEnvoye = function(id, Monscope, Monhttp){
     var url = 'http://localhost:8080/Webmails/app/rest/user/'+id+'/MailsSent';
     Monhttp.get(url).then(function(resp){
         Monscope.Mailsent = resp.data;
     });
 }
+//envoyer un mail
 var sendMail= function(Monscope, Monhttp,monLocation ){
 	var id=Monscope.user.id;
 	console.log(Monscope.mail);
 	console.log('id:',id);
-	
     var url = 'http://localhost:8080/Webmails/app/rest/user/'+id+'/sendMail';
     Monhttp.post(url,Monscope.mail).then(function(){
-    	monLocation.path('/envoi');
+    	monLocation.path('/boite/envoi');
     });
 }
+//supprimer un mail
+var DeleteMail = function(mailid, monscope,monhttp){
+	console.log('delete mail fct');
+    var url = 'http://localhost:8080/Webmails/app/rest/mail/'+mailid;
+    console.log(url);
+    monhttp.delete(url).then(function(){
+    	 console.log('mail supprimé');
+    });
+}
+//ajouter un utilisateur
 var Add = function(monscope,monhttp){
     var url = 'http://localhost:8080/Webmails/app/rest/user';
     monhttp.post(url,monscope.user).then(function(){
     	monscope.user = {};
     });
 }
-var connVerif=function(monscope,monhttp, monLocation){
+//vérifier la connexion
+var connVerif=function(monscope,monhttp, monLocation, mesCookies){
 	 var url = 'http://localhost:8080/Webmails/app/rest/user/login';
 	 console.log('Verif login');
 	 console.log(monscope.user);
@@ -40,30 +65,40 @@ var connVerif=function(monscope,monhttp, monLocation){
 	        	console.log('connexion');
 	        	monscope.user=resp.data;
 	        	console.log(monscope.user);
-	        	monLocation.path('/index');
+	        	monLocation.path('/boite');
+	        	mesCookies.putObject('CurrentUser',monscope.user);
+	        	console.log('cookies put:');
+	        	console.log(mesCookies.get('CurrentUser'));
 	        }
 	        else
 	        {
+	        	monscope.checkConn=true;
 	        	console.log('erreur de connexion');
 	        	
-	        	monLocation.path('/inscription');
 	       	}
 	        	
 	    });
 }
-
 myApp.config(function($routeProvider) {
     $routeProvider
     .when('/index',  {
         templateUrl:'Partials/Bienvenue.html'
     })
-    .when('/reception',  {
+     .when('/boite',  {
+        templateUrl:'Partials/Boite.html',
+        controller:"CtrlUser"
+    })
+    .when('/boite/reception',  {
         templateUrl:'Partials/listMailRec.html',
         	controller:"CtrlRec"
     })
-    .when('/envoi', {
+    .when('/boite/envoi', {
         templateUrl:'Partials/listMailSent.html',
         controller:"CtrlSent"
+    })
+     .when('/boite/mail',  {
+        templateUrl:'Partials/NewMail.html',
+        controller:"CtrlUser"
     })
     .when('/inscription',  {
         templateUrl:'Partials/AjoutUser.html'
@@ -74,17 +109,16 @@ myApp.config(function($routeProvider) {
     .when('/contact',  {
         templateUrl:'Partials/Contact.html'
     })
-    .when('/mail',  {
-        templateUrl:'Partials/NewMail.html',
-    });
+   
 });
 
-myApp.controller("CtrlUser", function($scope, $http, $location) {
+myApp.controller("CtrlMyApp", function($scope, $http, $location,$cookies) {
    
-	$scope.value = "<u>initial Text</u>";
-	console.log('init controlleur User');
+	
+	console.log('init controlleur général');
     var d= new Date();
     $scope.dat= d;
+    
     //bouton submit pour ajout d user
     $scope.user={};
     $scope.addUser= function(){
@@ -96,34 +130,81 @@ myApp.controller("CtrlUser", function($scope, $http, $location) {
     //bouton connexion pour se loger
       $scope.login= function(){
       console.log('fct login');
-      connVerif($scope,$http,$location);
+      connVerif($scope,$http,$location,$cookies);
     }
+
+    console.log('fin controlleur général');
+});
+myApp.controller("CtrlUser", function($scope, $http, $location,$cookies) {
+	
+	console.log(' controlleur User');
+	$scope.value = "<u>initial Text</u>";
+	// récupérer la liste des utilisateur
+	$scope.users={};
+	listUser($scope,$http);
+	console.log('list users');
+	console.log($scope.users);
+	//récupérer l'utilisateur courant
+	var CurrentUser= $cookies.getObject('CurrentUser');
+	$scope.user=CurrentUser;
+	console.log(CurrentUser);
+	if (CurrentUser ==undefined)
+	{
+			console.log('nn connected');
+			$scope.connected=true;
+	}
+	else
+	{
+		console.log(' connected');
+		var id= CurrentUser.id;
+		console.log(id);
+	}
+	
     //bouton envoyer mail
-      $scope.mail={};
-      $scope.envoyer= function(){
-          console.log('fct envoyer un mail');
-          sendMail($scope,$http,$location);
-        }
-     
-    console.log('fin controlleur');
+    $scope.mail={};
+    $scope.envoyer= function(){
+        console.log('fct envoyer un mail');
+        sendMail($scope,$http,$location);
+      }
+   //se déconnecter
+    $scope.deconnexion= function(){
+    	$cookies.remove('CurrentUser');
+    	$scope.user={};
+    };
+    
 });
-myApp.controller("CtrlRec", function($scope, $http, $location) {
+myApp.controller("CtrlRec", function($scope, $http, $location,$cookies) {
 	   
-	console.log('init controlleur reception');
-	console.log($scope.user);
-	var id= $scope.user.id;
-	console.log($scope.user.id);
-	ListReception(id,$scope,$http);
-    console.log('fin reception');
+		console.log('init controlleur reception');
+		var CurrentUser= $cookies.getObject('CurrentUser');
+		$scope.user=CurrentUser;
+		var id= CurrentUser.id;
+		console.log(id);
+		ListReception(id,$scope,$http);
+		//bouton suppression email
+		$scope.deleteMail = function (mailid)
+		{
+			console.log('supprimer un mail recu');
+	        DeleteMail(mailid,$scope,$http);
+		};
+	    console.log('fin reception');
 });
-myApp.controller("CtrlSent", function($scope, $http, $location) {
+myApp.controller("CtrlSent", function($scope, $http, $location, $cookies) {
 	   
-	console.log('init controlleur mail envoyé');
-	 console.log($scope.user);
-	var id= $scope.user.id;
-	console.log($scope.user.id);
-	ListEnvoye(id,$scope,$http);
-    console.log('fin envoyé');
+		console.log('init controlleur mail envoyé');
+		var CurrentUser= $cookies.getObject('CurrentUser');
+		$scope.user=CurrentUser;
+		var id= CurrentUser.id;
+		console.log(id);
+		ListEnvoye(id,$scope,$http);
+		//bouton suppression email
+		$scope.deleteMail = function (mailid)
+		{
+			console.log('supprimer un mail envoyé');
+	        DeleteMail(mailid,$scope,$http);
+		}
+	    console.log('fin envoyé');
+	
 });
 
 

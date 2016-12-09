@@ -23,14 +23,18 @@
     
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+
+
     <script src="Controller.js"></script>   
+    
 	<script src="directives/rich-editor.js"></script>
 	
   </head>
 
   <body>
  <!--Menu ================================================== -->
-    <div ng-app="myApp" ng-controller="CtrlUser">
+    <div ng-app="myApp" ng-controller="CtrlMyApp">
     <div class="container" >
       <!-- The justified navigation menu is meant for single line per list item.
            Multiple lines will require custom code not provided by Bootstrap. -->
@@ -39,9 +43,10 @@
         <nav>
           <ul class="nav nav-justified">
             <li><a href="#/index">Home</a></li>
-            <li><a href="#/reception">Boite Réception</a></li>
+            <!-- <li><a href="#/reception">Boite Réception</a></li>
             <li><a href="#/envoi">Boite d'envoi</a></li>
-            <li><a href="#/mail">Nouveau mail</a></li>
+            <li><a href="#/mail">Nouveau mail</a></li> -->
+            <li><a href="#/boite">Boite mail</a></li>
             <li><a href="#/contact">Contact</a></li>
             <li><a href="#/connexion">Connexion</a></li>
             <li><a href="#/inscription">Inscription</a></li>
