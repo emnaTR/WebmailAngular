@@ -29,6 +29,7 @@ var ListEnvoye = function(id, Monscope, Monhttp){
 //envoyer un mail
 var sendMail= function(Monscope, Monhttp,monLocation ){
 	var id=Monscope.user.id;
+	console.log('fct send');
 	console.log(Monscope.mail);
 	console.log('id:',id);
     var url = 'http://localhost:8080/Webmails/app/rest/user/'+id+'/sendMail';
@@ -37,7 +38,7 @@ var sendMail= function(Monscope, Monhttp,monLocation ){
     });
 }
 //supprimer un mail
-var DeleteMail = function(mailid, monscope,monhttp){
+var SuppMail = function(mailid, monscope,monhttp){
 	console.log('delete mail fct');
     var url = 'http://localhost:8080/Webmails/app/rest/mail/'+mailid;
     console.log(url);
@@ -46,10 +47,12 @@ var DeleteMail = function(mailid, monscope,monhttp){
     });
 }
 //ajouter un utilisateur
-var Add = function(monscope,monhttp){
+var Add = function(monscope,monhttp,monLocation){
     var url = 'http://localhost:8080/Webmails/app/rest/user';
+    console.log('add user');
     monhttp.post(url,monscope.user).then(function(){
     	monscope.user = {};
+    	monLocation.path('/boite');
     });
 }
 //vérifier la connexion
@@ -124,13 +127,14 @@ myApp.controller("CtrlMyApp", function($scope, $http, $location,$cookies) {
     $scope.addUser= function(){
         console.log('fct test add user');
         console.log($scope.user);
-        Add($scope,$http);
+        Add($scope,$http,$location);
     }
     
     //bouton connexion pour se loger
       $scope.login= function(){
       console.log('fct login');
       connVerif($scope,$http,$location,$cookies);
+     // $route.reload();
     }
 
     console.log('fin controlleur général');
@@ -142,8 +146,7 @@ myApp.controller("CtrlUser", function($scope, $http, $location,$cookies) {
 	// récupérer la liste des utilisateur
 	$scope.users={};
 	listUser($scope,$http);
-	console.log('list users');
-	console.log($scope.users);
+
 	//récupérer l'utilisateur courant
 	var CurrentUser= $cookies.getObject('CurrentUser');
 	$scope.user=CurrentUser;
@@ -158,16 +161,42 @@ myApp.controller("CtrlUser", function($scope, $http, $location,$cookies) {
 		console.log(' connected');
 		var id= CurrentUser.id;
 		console.log(id);
-	}
-	
+	}	
     //bouton envoyer mail
     $scope.mail={};
     $scope.envoyer= function(){
-        console.log('fct envoyer un mail');
+    	$scope.mail.date= new Date();
+    	$scope.mail.usersReceiver =[];
+        	//récupérer le dest
+/* 		var Dest={};   	   
+  		var emailDest=$scope.dest
+  		usersList=$scope.users
+        for (var i=1 ; i< usersList.length; i++)
+        	   {
+        	   		if (usersList[i].email == emailDest)
+        	   			Dest=usersList[i];
+        	   }
+        console.log(Dest);
+        $scope.mail.usersReceiver.push(Dest);*/
+    	 //récupérer une liste d'users
+    	var Dest=[];
+    	$scope.users.forEach(function(item){
+    			if(item.checked) {
+    				Dest.push(item);
+    				}
+    		});
+    	console.log('Dest');
+    	console.log(Dest);
+    	$scope.mail.usersReceiver=Dest;
+    	console.log('mail.usersReseiver');
+    	console.log($scope.mail.usersReseiver);
+        console.log(' envoyer un mail');
+        console.log($scope.mail.usersReceiver);
         sendMail($scope,$http,$location);
       }
    //se déconnecter
     $scope.deconnexion= function(){
+    	console.log('deconnexion');
     	$cookies.remove('CurrentUser');
     	$scope.user={};
     };
@@ -185,7 +214,7 @@ myApp.controller("CtrlRec", function($scope, $http, $location,$cookies) {
 		$scope.deleteMail = function (mailid)
 		{
 			console.log('supprimer un mail recu');
-	        DeleteMail(mailid,$scope,$http);
+	        SuppMail(mailid,$scope,$http);
 		};
 	    console.log('fin reception');
 });
@@ -201,7 +230,7 @@ myApp.controller("CtrlSent", function($scope, $http, $location, $cookies) {
 		$scope.deleteMail = function (mailid)
 		{
 			console.log('supprimer un mail envoyé');
-	        DeleteMail(mailid,$scope,$http);
+	        SuppMail(mailid,$scope,$http);
 		}
 	    console.log('fin envoyé');
 	

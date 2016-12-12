@@ -7,18 +7,48 @@
 			<li> <a href="#/boite/envoi"><h4> <span class="badge">Boite d'envoi</span></h4></a>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
-		    <br><li> <p >compte:{{user.email}}</p></li>
+		    <br><li><p class="text-primary">compte: {{user.email}}</p></li>
 		    <li> <button class="btn btn-xs glyphicon glyphicon-remove-sign" ng-click="deconnexion()"></button ></li>
 		</ul>
 	</nav>
 	</div>
 
 	<div class="form-group">
-		<label for="Desr">A:</label>
-			<!--<input type="email" class="form-control" id="dest" name="dest"  placeholder="Dest " ng-model="mail.usersReceiver[0]"> -->
-	 	<select > <!-- ng-model="mail.usersReceiver[$index]"> -->
-			    <option  ng-repeat="user in users">{{user.email}}</option>
-		</select> 
+		<label for="Dest">A:</label>
+		<input type="hidden" ng-model="mail.date">
+		
+<!-- 	<input type="email" class="form-control" id="dest" name="dest"  placeholder="Dest " ng-model="dest"> -->
+<!--  	<select>
+			    <option  ng-repeat="user in users">{{user.email}}</option> 
+		</select>   --> 
+		<div class="container">
+		  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Destinataires</button>
+		  <!-- Modal -->
+		  <div class="modal fade" id="myModal" role="dialog">
+		    <div class="modal-dialog">
+		    
+		      <!-- Modal content-->
+		      <div class="modal-content">
+		        <div class="modal-header">
+		          <button type="button" class="close" data-dismiss="modal">&times;</button>
+		          <h4 class="modal-title">Liste de destinataires</h4>
+		        </div>
+		        <div class="modal-body">
+				     <div class="checkbox" ng-repeat="user in users">
+					<label>
+						 <input type="checkbox" ng-checked="users[$index].checked" ng-model="users[$index].checked">{{user.email}}
+					</label>
+					</div> 
+				</div>
+		        <div class="modal-footer">
+		          <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		  
+		 </div>
+			
 	</div>
 	<div class="form-group">
 		<label for="Objet">Objet:</label>
@@ -42,4 +72,4 @@
 	</div>
 	<button id="send" class="btn btn-primary" ng-click="envoyer()">Envoyer</button>
 </div>    
-  
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
